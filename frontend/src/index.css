@@ -1,0 +1,342 @@
+@font-face {
+    font-family: "Comfortaa-bold";
+    src: local("Comfortaa"),
+     url("fonts/Comfortaa/Comfortaa-Bold.ttf") format("truetype");
+    font-weight: bold;
+   }
+   @font-face {
+    font-family: "Comfortaa";
+    src: local("Comfortaa"),
+     url("fonts/Comfortaa/Comfortaa-Regular.ttf") format("truetype");
+   }
+
+body{
+  font-family: 'Comfortaa', sans-serif; 
+  background-color: #fff;
+  font-size: 14px;
+}
+@media (max-width: 900px) {
+    .nav-bar {
+      flex-basis: auto;
+      flex-wrap: wrap;
+    }
+  }
+  button{
+    font-family: 'Comfortaa', sans-serif; 
+    font-size: 12px !important;
+    border-radius: 50;
+  }
+
+
+.container {
+    width: 100%;
+    padding: 0px;
+    font-family: 'Comfortaa', sans-serif; 
+    margin-top: 10px !important;
+    font-size: 14px;
+
+
+}
+main{
+    min-height: 80vh;
+    width: 100%;
+    max-height: 100vh;
+    font-size:12px;
+
+}
+
+.linknormal{
+    font-family: 'Comfortaa', sans-serif; 
+    color:#000 !important; 
+    padding: 7px !important;
+    font-size:14px !important;
+    text-decoration: none;
+    
+}
+.linknormalblue{
+    font-family: 'Comfortaa', sans-serif; 
+    color:#1CB0CD !important; 
+    padding: 7px !important;
+    font-size:14px !important;
+    text-decoration: none;
+    
+}
+
+
+@media screen and (max-width: 320px){
+    #image-section{
+        width: 100%;
+        height: auto;
+      };
+    }
+
+
+h1 {
+  display:inline-block;
+  text-transform: none !important;
+  font-family: 'Comfortaa-bold', sans-serif !important;  
+  font-size: 16px !important;
+  
+}
+  h1:first-letter {text-transform: uppercase}
+
+h2 {
+  display:inline-block;
+  text-transform: none !important;
+  font-family: 'Comfortaa-bold', sans-serif !important;  
+  font-size: 14px  !important;
+}
+  h2:first-letter {text-transform: uppercase}
+  h3 {
+    display:inline-block;
+    text-transform: none !important;
+    font-family: 'Comfortaa-bold', sans-serif !important;  
+    font-size: 12px  !important;
+  }
+    h3:first-letter {text-transform: uppercase}
+
+h4{
+    font-family: 'Comfortaa', sans-serif !important;  
+    color:#000 !important; 
+    font-size: 12px;
+
+}
+
+h5 { 
+    font-family: 'Comfortaa-bold', sans-serif !important;  
+    color:#61dafb !important; 
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: -2px; 
+    padding: -1;
+ }
+
+ p{
+    font-family: 'Comfortaa-bold', sans-serif !important;  
+    color:#000 !important; 
+    text-decoration: none;
+    font-size: 12px;
+    padding: 0;
+    
+ }
+
+ .pbold{
+    font-family: 'Comfortaa-bold', sans-serif !important;  
+    color:#000 !important; 
+    text-decoration: none;
+    font-size: 14px !important;
+    font-weight: 700;
+    padding: 5;
+    margin-top: 3;
+    
+ }
+.textnormal{
+    
+        font-family: 'Comfortaa', sans-serif !important; 
+        font-size: 12px !important;
+        color:#000	 !important; 
+}
+.textnormalbold{
+    
+  font-family: 'Comfortaa-bold', sans-serif !important; 
+  font-size: 12px !important;
+  font-weight: 700;
+  color:#000	 !important; 
+}
+
+.textnormalwhite{
+    
+    font-family: 'Comfortaa', sans-serif !important; 
+    font-size: 12px !important;
+    color:#fff	 !important; 
+}
+.littlenormalwhite{
+    
+  font-family: 'Comfortaa-bold', sans-serif !important; 
+  font-size: 9px !important;
+  color:#fff	 !important; 
+}
+.littlenormal{
+    
+  font-family: 'Comfortaa-bold', sans-serif !important; 
+  font-size: 10px !important;
+  font-weight: 400;
+  color:#666	 !important; 
+}
+.littleblue{
+    
+  font-family: 'Comfortaa-bold', sans-serif !important; 
+  font-size: 9px !important;
+  color:#61dafb	 !important; 
+}
+.textblue{
+    
+    font-family: 'Comfortaa-bold', sans-serif !important; 
+    font-size: 12px !important;
+    color:#61dafb !important; 
+}
+
+
+.StripeElement {
+    box-sizing: border-box;
+    margin: 10px 0;
+    height: 40px;
+
+    padding: 10px 12px;
+
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.stripe-form {
+    margin: 1px;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+    width: 100%;
+    border: 2px solid #32325d;
+    border-radius: 5px;
+    /*background: #61dafb;*/
+}
+
+.submit-btn{
+    margin: 10px 0;
+    width: 50%;
+    align-self: center;
+    background: #32325d;
+    padding: 10px 14px;
+    color: white;
+    border-radius: 5px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 15px;
+}
+
+
+
+  .container {
+    width: 100%;
+    margin: auto;
+  }
+  
+  .cards-container {
+    display: flex;
+    border-radius: 2px;
+    color: #333;
+    padding: .5rem;
+    overflow-x: auto;
+    position: relative;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  .card {
+    flex: 1 0 250px;
+    background: #fff;
+    margin: 1rem;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    
+    img {
+      object-fit: center
+    }
+    
+    &:hover {
+      box-shadow: 0 4px 1rem -4px #000;
+      transform: translateY(-3px);
+    }
+  }
+
+
+
+  .container {
+    width: 100%;
+    margin: auto;
+  }
+  
+  .cards-containerinclude {
+    display: flex;
+    border-radius: 2px;
+    color: #333;
+    padding: .3rem;
+    overflow-x: auto;
+    position: relative;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  .cardinclude {
+    flex: 1 0 110px;
+    background: #fff;
+    margin: 1rem;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    
+    img {
+      object-fit: center
+    }
+    
+    &:hover {
+      box-shadow: 0 4px 1rem -4px #000;
+      transform: translateY(-3px);
+    }
+  }
+
+
+
+  
+@media screen and (max-width: 320px){
+.imgBox{
+    width: 100%;
+    height: auto;
+  };
+}
+  .card-content {
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+  
+  @media screen and (max-width: 625px) {
+    .container {
+      width: 100%
+    }
+    
+    .cards-container {
+      padding: .5rem;
+    }
+    
+    .card {
+      margin: .5rem;
+      background-color: #fff;
+    }
+  }
+
+ 
