@@ -3,10 +3,14 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from base.models import Product,Order,OrderItem,ShippingAddress, AddressItem
+from base.models import Product,Order,OrderItem,ShippingAddress, AddressItem,TyreProduct,Timetable
 from base.serializers import OrderSerializer
 from base.utils.pay_utils import idpayCreateDB, idpayUpdateDB, idpayCompleteDB, idpayInquiry, idpayCreatePay, makeInquiryPayResult
 import stripe
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 @api_view(['POST'])
 def addOrderItems(request):
@@ -22,15 +26,19 @@ def addOrderItems(request):
         
         order = Order.objects.create(
             user = user,
+            service = data['serviceCenter']['serviceid'],
             servicecenter_id = data['serviceCenter']['servicecenterid'],
-            dateservice = data['serviceCenter']['dateservice'],
+            timetable_id = data['serviceCenter']['dateservice'],
             timeservice = data['serviceCenter']['timeservice'],
             paymentMethod = data['paymentMethod'],
             taxPrice = data['taxPrice'],
             shippingPrice = data['shippingPrice'],
+            discount=data['discount'],
             totalPrice = data['totalPrice'],
         )
-        
+
+    
+
         # (2) Create shipping address
         
         shipping = ShippingAddress.objects.create(
@@ -46,20 +54,35 @@ def addOrderItems(request):
         # (3) Create order item and set order to orderItems relationship
         
         for i in orderItems:
-            product = Product.objects.get(_id=i['product'])
+            tyreproduct = TyreProduct.objects.get(_id=i['product'])
 
             item = OrderItem.objects.create(
-                product_id=product._id,
+            	tyreproduct_id=tyreproduct._id,
                 order = order,
-                name = product.name,
                 qty=i['qty'],
                 price = i['price'],
-                image=product.image.url
             )
+            
+            orderinfo=Order.objects.get(_id=order._id)
+            iteminfo=OrderItem.objects.filter(order_id=order._id)
+            
+            ordertimetable=orderinfo.timetable_id
+            if orderinfo.servicecenter_id==13:
+                    updatetimetable = Timetable.objects.filter(_id=ordertimetable).update(isAvailable=2)
+            
+            subject, from_email, to = 'Thanks to choose Drivo.ae', 'info@drivo.ae',  'zshangi@gmail.com'
+            html_content = render_to_string('JO.html', {'orderid':order,'date':orderinfo.paidAt,'amount':orderinfo.totalPrice,'servicecenter':orderinfo.servicecenter.name,'agent':orderinfo.servicecenter.user.last_name,'dateservice':'2023-09-12','timeservice':'9AM-12PM','user':orderinfo.user.first_name,'iteminfo':iteminfo,'discount':orderinfo.discount}) # render with dynamic value
+
+            text_content = strip_tags(html_content) # Strip the html tag. So people can see the pure text at least.
+            # create the email, and attach the HTML version as well.
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            
              
             # (4) Update stock
-            product.countInStock -= item.qty
-            product.save()
+            tyreproduct.countInStock -= item.qty
+            tyreproduct.save()
         serializer = OrderSerializer(order,many=False)
         return Response(serializer.data)
 
@@ -74,6 +97,7 @@ def getMyOrders(request):
 
 @api_view(['GET'])
 def getOrders(request):
+    user=request.user
     orders = Order.objects.all()
     serializer = OrderSerializer(orders,many=True)
     return Response(serializer.data)
@@ -85,7 +109,7 @@ def getOrderById(request,pk):
         user = request.user
         order = Order.objects.get(_id=pk)
         
-        if user.is_staff or order.user == user :
+        if user.is_staff or order.user == user or  user.groups=="supplier":
             serializer = OrderSerializer(order,many=False)
             return Response(serializer.data)
         else:

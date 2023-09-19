@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-5hk57+ku6#pd%b^xog!*^8u6kvd*t=fy79do$8a&c(7(j#75wi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['drivo.ae','www.drivo.ae']
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # my apps
-    'base.apps.BaseConfig',
+    'base',
     'posts',
     'categories',
     'tags',
@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': 'drivoae_drivodev_db',  
         'USER': 'drivoae__drivo',  
         'PASSWORD': ')Uk$e}ak,(3b',  
-        'HOST': 'drivo.ae',  
+        'HOST': 'localhost',  
         'PORT': '3306',  
                 'OPTIONS': {'charset': 'utf8mb4'},
 
@@ -146,6 +146,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
@@ -153,7 +154,6 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = 'static/images'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -164,11 +164,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # email_backend_settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'mail.drivo.ae'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'zshangi@gmail.com'
-EMAIL_HOST_PASSWORD = 'Zohreh@123456'
-EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'info@drivo.ae'
+EMAIL_HOST_PASSWORD = 'cN}87_Drj#,H'
+EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 
 CORS_ALLOW_HEADERS = ['*']
@@ -176,8 +176,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 # cors_origin
 CORS_ALLOWED_ORIGINS = [
-"http://drivoae.ae",
-"https://drivo.ae",
+"http://drivodev.com",
+"https://drivodev.com",
 "http://127.0.0.1:3000",
 "http://127.0.0.1:8000",
 ]
@@ -187,9 +187,6 @@ CORS_ALLOWED_ORIGINS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_THROTTLE_CLASSES':[
         # 'rest_framework.throttling.AnonRateThrottle',
@@ -237,5 +234,6 @@ SIMPLE_JWT = {
 }
 
 #stripe
-STRIPE_SECRET_KEY = 'sk_test_51N1RJWGcJKS2UZRpmL2pCaBfMJagMBsZLaovvFNryqx1sxOdw3UGCykoEtxH8seJva9vXDVFJizlbjXfM4SYEsrP0028xNYQjp'
+STRIPE_SECRET_KEY = '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'
+#STRIPE_SECRET_KEY = 'sk_test_51N1RJWGcJKS2UZRpmL2pCaBfMJagMBsZLaovvFNryqx1sxOdw3UGCykoEtxH8seJva9vXDVFJizlbjXfM4SYEsrP0028xNYQjp'
 

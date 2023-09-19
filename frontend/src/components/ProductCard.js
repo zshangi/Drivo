@@ -117,7 +117,7 @@ function ProductCard({
             <Row className='border-bottom'>
 
               <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
-                <img src={product.imageurl.trim()} alt={product.name} width={'50%'} />
+                <img className='img-tire' src={product.imageurl.trim()} alt={product.name}  />
               </Col>
               <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'left' }}>
               <Link to={`/product/${product._id}`} >

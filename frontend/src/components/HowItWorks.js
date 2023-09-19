@@ -15,7 +15,7 @@ function HomeCarousel() {
         
       <div className="cards-container">
   
-      <Card  style={{ borderRadius: 18,}}>
+      <Card style={{ borderRadius: 18, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
       <CardMedia
           component="img"
           image={'assets/images/specialoffer/1.svg'}
@@ -32,7 +32,7 @@ function HomeCarousel() {
         </CardContent> 
         </Card>
 
-        <Card  style={{ borderRadius: 18,}}>
+        <Card style={{ borderRadius: 18, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
       <CardMedia
           component="img"
           image={'assets/images/specialoffer/2.svg'}
@@ -47,7 +47,7 @@ function HomeCarousel() {
         </CardContent> 
         </Card>
 
-        <Card  style={{ borderRadius: 18,}}>
+        <Card style={{ borderRadius: 18, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
       <CardMedia
           component="img"
           image={'assets/images/specialoffer/3.svg'}
@@ -62,7 +62,7 @@ function HomeCarousel() {
         </CardContent> 
         </Card>
 
-        <Card  style={{ borderRadius: 18,}}>
+        <Card style={{ borderRadius: 18, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
       <CardMedia
           component="img"
           image={'assets/images/specialoffer/4.svg'}
@@ -73,7 +73,7 @@ function HomeCarousel() {
         <span className='pbold'>4.Drive With confidence</span>      </Typography>
 
           <Typography variant="body2" color="text.secondary">
-          Enjoy complimentary wheel alignment, installation, balancing, and nitrogen filling. Drive safe with Drivo.ae!
+          Enjoy complimentary installation, balancing, and nitrogen filling. Drive safe with Drivo.ae!
           </Typography>
         </CardContent> 
         </Card>

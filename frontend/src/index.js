@@ -6,9 +6,9 @@ import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './bootstrap.min.css';
 import './fonts/Montserrat/Montserrat-Bold.ttf';
-
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
 
 ReactDOM.render(
 
@@ -17,7 +17,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

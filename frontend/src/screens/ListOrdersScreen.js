@@ -7,6 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { getMyOrderList } from '../actions/orderActions'
 import Button from '@mui/material/Button';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
 
 
 function ListOrdersScreen({ history }) {
@@ -44,9 +45,55 @@ function ListOrdersScreen({ history }) {
         error = errorUpdateProfile
     }
 
-
-
-
+    const handelRefund= (id) => {
+        window.open(`https://api-sandbox.tamara.co/payments/simplified-refund/${id}`, '_self');
+      }
+      
+    //   const handelCapture= (id) => {
+    //     const data={
+    //         "order_id": "7b6f0d93-8853-48d0-a769-f641a2212142",
+    //         "total_amount": {
+    //         "amount": "100.00",
+    //         "currency": "AED"
+    //         },
+    //         "tax_amount": {
+    //         "amount": "100.00",
+    //         "currency": "AED"
+    //         },
+    //         "shipping_amount": {
+    //         "amount": "100.00",
+    //         "currency": "AED"
+    //         },
+    //         "discount_amount": {
+    //         "amount": "100.00",
+    //         "currency": "AED"
+    //         },
+    //         "items": [
+    //         {}
+    //         ],
+    //         "shipping_info": {
+    //         "shipped_at": "2019-08-24T14:15:22Z",
+    //         "shipping_company": "DHL",
+    //         "tracking_number": "123456",
+    //         "tracking_url": "https://shipping.com/tracking?id=123456"
+    //         }
+    //         }
+      
+    //       const method="POST"
+    //       return axios({
+    //         url: `https://api-sandbox.tamara.co/payments/capture`,
+    //         method,
+    //         data,
+    //         headers: {
+    //           'Content-type': 'application/json',
+    //           Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhY2NvdW50SWQiOiJhMGMwYjAwMy03NWY2LTQ3ZjEtOTQ5ZC1mYTkwNzkwMTliMjAiLCJ0eXBlIjoibWVyY2hhbnQiLCJzYWx0IjoiOWM3NWQ0ZGY0MGRkZTc2N2E3ODhlZDRlNTY5NzdlN2MiLCJyb2xlcyI6WyJST0xFX01FUkNIQU5UIl0sImlhdCI6MTY5MzQ2MjE2NiwiaXNzIjoiVGFtYXJhIn0.OpSRcgDVK4M4mgL7Mg4F_PPTm0m6TZPm7-BHvyO9U4v_NT2gLkD7PfFNwcGygOPYaaoB18p1HIfxJEjyi7099AxYtGOucmbwKoXAvtjpaMtgAKZVZN4GrkoX3mfVRzjtzCmjNQULWi5yoQs6wmz_REKM_P7AycPUwsve-WRwVaVnUSgWrNI-xsDkWj1bj3KQky11TMryi3z6ZEiXefkaXaucPFhgwlRqUtYqkNNYRet8PTdWC0S1In1gZg8bdkJZa7uhirOkwARga_Zp1n1OcZQyfEbEPlzIe4X-oTnzW7yH4EDtozl6d3lgZW8_iiTcbdDDESCLe2VJO-MwwRIFYw'
+    //       }
+    //       })
+    //       .then(response => {
+    //         console.log(response.data);
+    //   })
+    // }
+    
     useEffect(() => {
 
         if (!userInfo) {
@@ -88,6 +135,7 @@ function ListOrdersScreen({ history }) {
                                         <th>id</th>
                                         <th>date</th>
                                         <th>total</th>
+                                        <th>payment Method</th>
                                         <th>paid</th>
                                         <th>delivered</th>
                                         <th></th>
@@ -104,6 +152,16 @@ function ListOrdersScreen({ history }) {
                                                 <td>#{order._id}</td>
                                                 <td>{order.createdAt.substring(0, 10)}</td>
                                                 <td>$ {order.totalPrice}</td>
+                                                <td> {order.paymentMethod}
+                                                {order.paymentMethod=='tamara'?
+                                                <>
+                                                <Button onClick={() => handelRefund(order._id)} >Refund</Button>
+                                                {/* <Button onClick={() => handelCapture(order._id)} >Capture</Button> */}
+                                                </>
+                                                :null
+                                                }
+                                                </td>
+
                                                 <td>
                                                     {order.isPaid ?
                                                         order.paidAt.substring(0, 10) : (

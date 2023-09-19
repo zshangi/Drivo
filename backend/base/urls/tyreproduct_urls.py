@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path,re_path
 from base.views import product_views as views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [

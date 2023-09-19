@@ -4,7 +4,7 @@ from django.contrib.auth.models import User,Group
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 
-from base.models import Modification,Model,Make,VehicleUser,Product,Order,OrderItem,ShippingAddress,ServiceCenter,Timetable,Tyre,AddressItem,VehicleTyre,Brand,Brandorigin,Origin,TyreProduct
+from base.models import Modification,Model,Make,VehicleUser,Product,Order,OrderItem,ShippingAddress,ServiceCenter,Timetable,Tyre,AddressItem,VehicleTyre,Brand,Brandorigin,Origin,TyreProduct,LabelCode,BrandPattern
 
 # ////////////////////////////////////////////////////////////////////////////////
 class OriginSerializer(serializers.ModelSerializer):
@@ -30,6 +30,18 @@ class BrandoriginSerializer(serializers.ModelSerializer):
     def get_origin(self,obj):
         origin = OriginSerializer(obj.origin).data
         return origin 
+
+class BrandpatternSerializer(serializers.ModelSerializer):
+    brand=serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = BrandPattern
+        fields = '__all__' 
+        
+    def get_brand(self,obj):
+        brand = BrandSerializer(obj.brand).data
+        return brand  
+
+        
 # ////////////////////////////////////////////////////////////////////////////////
         
 class MakeSerializer(serializers.ModelSerializer):
@@ -156,9 +168,18 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+class LabelCodeSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = LabelCode
+        fields = '__all__'        
+        
+
 class TyreProductSerializer(serializers.ModelSerializer):
     tyre=serializers.SerializerMethodField(read_only=True)
     brandorigin=serializers.SerializerMethodField(read_only=True)
+    brandpattern=serializers.SerializerMethodField(read_only=True)
+    labelcode=serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = TyreProduct
         fields = '__all__'
@@ -166,10 +187,18 @@ class TyreProductSerializer(serializers.ModelSerializer):
     def get_tyre(self,obj):
         tyre = TyreSerializer(obj.tyre).data
         return tyre    
+    
     def get_brandorigin(self,obj):
         brandorigin = BrandoriginSerializer(obj.brandorigin).data
-        return brandorigin    
-
+        return brandorigin 
+    
+    def get_brandpattern(self,obj):
+        brandpattern = BrandpatternSerializer(obj.brandpattern).data
+        return brandpattern     
+        
+    def get_labelcode(self,obj):
+        labelcode = LabelCodeSerializer(obj.labelcode).data
+        return labelcode  
         
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -177,23 +206,57 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TimeTableSerializer(serializers.ModelSerializer):
+    
+    
+    class Meta:
+        model = Timetable
+        fields = '__all__'
+
+
+class ServicecentersSerializer(serializers.ModelSerializer):
+    servicecenterItems = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = ServiceCenter
+        fields = '__all__'
+
+    def get_servicecenterItems(self,obj):
+        items = obj.timetable_set.all()
+        return TimeTableSerializer(items,many=True).data
+
+
+        
+    def get_user(self,obj):
+        return UserSerializer(obj.user,many=False).data        
+
 class OrderItemSerializer(serializers.ModelSerializer):
+    tyreproduct=serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = OrderItem
         fields = '__all__'
-
+        
+    def get_tyreproduct(self,obj):
+        tyreproduct = TyreProductSerializer(obj.tyreproduct).data
+        return tyreproduct     
 
 class OrderSerializer(serializers.ModelSerializer):
     orderItems = serializers.SerializerMethodField(read_only=True)
     shippingAddress = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
-    
-    
+    servicecenter=serializers.SerializerMethodField(read_only=True)
+    timetable = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Order
         fields = '__all__'
         
-    
+
+    def get_timetable(self,obj):
+        timetable = TimeTableSerializer(obj.timetable).data
+        return timetable     
     
     def get_orderItems(self,obj):
         items = obj.orderitem_set.all()
@@ -209,26 +272,9 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_user(self,obj):
         return UserSerializer(obj.user,many=False).data
 
-
-class TimeTableSerializer(serializers.ModelSerializer):
-    
-    
-    class Meta:
-        model = Timetable
-        fields = '__all__'
-
-
-class ServicecentersSerializer(serializers.ModelSerializer):
-    servicecenterItems = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = ServiceCenter
-        fields = '__all__'
-
-    def get_servicecenterItems(self,obj):
-        items = obj.timetable_set.all()
-        return TimeTableSerializer(items,many=True).data
-
+    def get_servicecenter(self,obj):
+        return ServicecentersSerializer(obj.servicecenter,many=False).data
+        
 
 
        

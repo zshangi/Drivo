@@ -55,9 +55,6 @@ function ProductScreen({ match, history }) {
         <meta name="description" content="Datails Of Products" />
       </Helmet>
 
-
-
-
             {loading ? <Loader />
                 : error ? <Message variant='danger' text={error} />
                     :

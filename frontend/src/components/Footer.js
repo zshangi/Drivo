@@ -81,6 +81,22 @@ const termsHandler = () => {
   setOpen(false)
   history.push('/terms');
 }
+const faqHandler = () => {
+  setOpen(false)
+  history.push('/faq');
+}
+const aboutHandler = () => {
+  setOpen(false)
+  history.push('/about');
+}
+const refundHandler = () => {
+  setOpen(false)
+  history.push('/returnrefund');
+}
+const warantyHandler = () => {
+  setOpen(false)
+  history.push('/waranty');
+}
 const dashboardHandler = () => {
   setOpen(false)
   history.push('/supplier');
@@ -100,7 +116,10 @@ const logoutHandler = () => {
     history.push('/cart');
 
   };
+  const ChatHandler = () => {
+    window.open('https://api.whatsapp.com/send?phone=971505039598&text=Hello%20Drivo.ae&source=&data=&app_absent=', '_blank');
 
+  };
   const [value, setValue] = React.useState(0);
 
   return (
@@ -119,13 +138,10 @@ const logoutHandler = () => {
       <BottomNavigationAction sx={{color:'#1CB0CD'}}
         onClick={CartHandler} label="Cart"  icon={<BiBasket size={25}/>}/>
 
-      <BottomNavigationAction sx={{color: '#1CB0CD'}}  label="Chat"  icon={<BsChatDots size={25}/>}/>
-      {userInfo?
+      <BottomNavigationAction sx={{color: '#1CB0CD'}}  label="Chat"  onClick={ChatHandler}  icon={<BsChatDots size={25}/>}/>
+      
       <BottomNavigationAction onClick={toggleDrawer(true)} sx={{color:'#1CB0CD'}}   label="more"  icon={<BsThreeDots size={25} color={'#1CB0CD'}/>}/>
-    :
-    <BottomNavigationAction  icon={<BsThreeDots size={25} color={'#1CB0CD'}/>}/>
-
-    }
+  
       </BottomNavigation>
     </Paper>
 
@@ -139,67 +155,137 @@ const logoutHandler = () => {
            classes={{ paper: classes.drawerPaper }}
 
          >
-            <Box sx={{height:"450px",alignItems: 'left',
+            <Box sx={{height:"100%",alignItems: 'left',
                     textAlign:'left',  borderRadius: 3,
                   }} >
                          
 
              <MenuList>
-             <MenuItem  onClick={profileHandler}>
-          <ListItemIcon >
-            <RxAvatar size={35} color={'#61dafb'}/>
-          </ListItemIcon>
-          <ListItemText><span className="pbold"> Profile</span></ListItemText>
-        </MenuItem>
-        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={garageHandler}>
+     
+
+        {userInfo?
+          <>
+         <MenuItem sx={{borderBottom:1,borderColor:'#61dafb',backgroundColor:'#61dafb50'}} onClick={profileHandler}>
+         <ListItemIcon>
+           <FaCar color={'#61dafb'}/>
+         </ListItemIcon>
+         <ListItemText><span className="pbold">Profile</span></ListItemText>
+         <Typography variant="body2" color="text.secondary">
+           <FaChevronRight color={'#666'}/>
+         </Typography>
+       </MenuItem>
+         
+         <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={garageHandler}>
+         <ListItemIcon>
+          <FaCar color={'#61dafb'}/>
+         </ListItemIcon>
+         <ListItemText><span className="pbold">My Garage</span></ListItemText>
+         <Typography variant="body2" color="text.secondary">
+           <FaChevronRight color={'#666'}/>
+         </Typography>
+       </MenuItem>
+       <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={myHandler} >
+         <ListItemIcon>
+           <GiShoppingBag color={'#61dafb'}/>
+         </ListItemIcon>
+         <ListItemText>
+       <span className="pbold">My Orders</span>
+
+         </ListItemText>
+         <Typography variant="body2" color="text.secondary">
+         <FaChevronRight color={'#666'}/>
+         </Typography>
+       </MenuItem>
+       <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={locationHandler}>
+         <ListItemIcon>
+         <FaMapMarkerAlt color={'#61dafb'}/>
+         </ListItemIcon>
+       <ListItemText><span className="pbold">My Locations</span></ListItemText>
+         <Typography variant="body2" color="text.secondary">
+         <FaChevronRight color={'#666'}/>
+         </Typography>
+       </MenuItem>
+       <MenuItem  sx={{borderBottom:1,borderColor:'#61dafb'}}  onClick={dealHandler}>
+         <ListItemIcon>
+         <FaViadeo color={'#61dafb'}/>
+         </ListItemIcon>
+         <ListItemText> <span className="pbold">My Deals</span></ListItemText>
+         <Typography variant="body2" color="text.secondary">
+         <FaChevronRight color={'#666'}/>
+         </Typography>
+       </MenuItem>
+
+       </>
+        :
+        null
+}
+
+          
+
+<MenuItem sx={{borderBottom:1,borderColor:'#61dafb',backgroundColor:'#61dafb50'}}  onClick={helpHandler}>
           <ListItemIcon>
-            <FaCar color={'#61dafb'}/>
-          </ListItemIcon>
-          <ListItemText><span className="pbold">My Garage</span></ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            <FaChevronRight color={'#666'}/>
-          </Typography>
-        </MenuItem>
-        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={myHandler} >
-          <ListItemIcon>
-            <GiShoppingBag color={'#61dafb'}/>
+            <FaCalendarCheck color={'#61dafb'}/>
           </ListItemIcon>
           <ListItemText>
-        <span className="pbold">My Orders</span>
-
+            <span className="pbold">Help</span>
           </ListItemText>
           <Typography variant="body2" color="text.secondary">
           <FaChevronRight color={'#666'}/>
           </Typography>
         </MenuItem>
-        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={locationHandler}>
+
+
+          <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={aboutHandler}>
           <ListItemIcon>
-          <FaMapMarkerAlt color={'#61dafb'}/>
+          <FaCalendarCheck color={'#61dafb'}/>
           </ListItemIcon>
-        <ListItemText><span className="pbold">My Locations</span></ListItemText>
+          <ListItemText>
+            <span className="pbold">About Us</span>
+          
+            </ListItemText>
           <Typography variant="body2" color="text.secondary">
           <FaChevronRight color={'#666'}/>
           </Typography>
         </MenuItem>
-        <MenuItem  sx={{borderBottom:1,borderColor:'#61dafb'}}  onClick={dealHandler}>
+        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={faqHandler}>
           <ListItemIcon>
-          <FaViadeo color={'#61dafb'}/>
+          <FaCalendarCheck color={'#61dafb'}/>
           </ListItemIcon>
-          <ListItemText> <span className="pbold">My Deals</span></ListItemText>
+          <ListItemText>
+            <span className="pbold">FAQ</span>
+          
+            </ListItemText>
           <Typography variant="body2" color="text.secondary">
           <FaChevronRight color={'#666'}/>
           </Typography>
         </MenuItem>
-        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}}>
+        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={refundHandler}>
           <ListItemIcon>
-            <GiBugleCall color={'#61dafb'}/>
+            <FaCalendarCheck color={'#61dafb'}/>
           </ListItemIcon>
-          <ListItemText><span className="pbold">Call support</span></ListItemText>
+          <ListItemText>
+            <span className="pbold">Return and Refund</span>
+          
+            </ListItemText>
           <Typography variant="body2" color="text.secondary">
           <FaChevronRight color={'#666'}/>
           </Typography>
         </MenuItem>
-        <MenuItem  sx={{borderBottom:1,borderColor:'#61dafb'}}  onClick={termsHandler}>
+        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={warantyHandler}>
+          <ListItemIcon>
+            <FaCalendarCheck color={'#61dafb'}/>
+          </ListItemIcon>
+          <ListItemText>
+            <span className="pbold">Waranty</span>
+          
+            </ListItemText>
+          <Typography variant="body2" color="text.secondary">
+          <FaChevronRight color={'#666'}/>
+          </Typography>
+        </MenuItem>
+
+
+        <MenuItem sx={{borderBottom:1,borderColor:'#61dafb'}} onClick={termsHandler}>
           <ListItemIcon>
             <FaCalendarCheck color={'#61dafb'}/>
           </ListItemIcon>
@@ -207,7 +293,25 @@ const logoutHandler = () => {
           <Typography variant="body2" color="text.secondary">
           <FaChevronRight color={'#666'}/>
           </Typography>
+        </MenuItem> 
+        <MenuItem  sx={{bborderBottom:1,borderColor:'#61dafb'}}>
+          <ListItemIcon>
+          <FaCalendarCheck color={'#61dafb'}/>
+          </ListItemIcon>
+          <ListItemText>
+            <span className="textnormalbold">Call support : 065537006 </span>
+            <br/>
+            <span className="textnormalbold">Email support :  support@drivo.ae </span>
+            </ListItemText>
+          <Typography variant="body2" color="text.secondary">
+          <FaChevronRight color={'#666'}/>
+          </Typography>
         </MenuItem>
+
+
+
+
+
         {userInfo?
             userInfo.groups=="supplier"&&
                     <MenuItem  onClick={dashboardHandler}>
@@ -222,16 +326,19 @@ const logoutHandler = () => {
                 null
             
             }
-        <MenuItem  sx={{borderBottom:1,borderColor:'#61dafb'}}  onClick={logoutHandler}>
+            {userInfo?
+        <MenuItem  sx={{backgroundColor:'#61dafb50'}}  onClick={logoutHandler}>
        
-          <ListItemIcon>
-          <AiOutlineLogout color={'#61dafb'}/>
-          </ListItemIcon>
-          <ListItemText><span className="pbold">Sign out</span></ListItemText>
-          <Typography variant="body2" color="text.secondary">
-          </Typography>
-       
-        </MenuItem>   
+       <ListItemIcon>
+       <AiOutlineLogout color={'#61dafb'}/>
+       </ListItemIcon>
+       <ListItemText><span className="pbold">Sign out</span></ListItemText>
+       <Typography variant="body2" color="text.secondary">
+       </Typography>
+    
+     </MenuItem>
+     :
+     null}
       </MenuList></Box>
                </SwipeableDrawer>
     </>

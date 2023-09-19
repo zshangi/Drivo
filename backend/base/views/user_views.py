@@ -9,11 +9,15 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from rest_framework import status
 import jwt
 from base.models import AddressItem,ShippingAddress
 from base.models import VehicleUser,Modification,Model,Make
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 def emailSender(data):
     try:
         email = EmailMessage(
@@ -96,6 +100,19 @@ def updateUserProfile(request):
 
     user.save()
     serializer = UserSerializerWithToken(user, many=False)
+    
+    subject, from_email, to = 'Welcome to Drivo.ae', 'info@drivo.ae',  data['email']
+
+    html_content = render_to_string('E1.html', {'varname':data['email']}) # render with dynamic value
+    text_content = strip_tags(html_content) # Strip the html tag. So people can see the pure text at least.
+    
+    # create the email, and attach the HTML version as well.
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+        
+
+    
     return Response(serializer.data)
 
 
@@ -130,7 +147,7 @@ def registerUser(request):
         user = User.objects.get(username=username)
         user.password = make_password(password)
         user.save()
-    serializer = UserSerializer(user, many=False)
+    serializer = UserSerializerWithToken(user, many=False)
     return Response(serializer.data)
 
 
@@ -157,7 +174,7 @@ def SaveVehicleUser(request):
     print(data['make'])
     makedata=Make.objects.get(make=data['make'])
     print(makedata._id)
-    modeldata=Model.objects.get(model=data['model'],year=data['year'],make_id=57)
+    modeldata=Model.objects.get(model=data['model'],year=data['year'],make_id=makedata._id)
     print(modeldata._id)
     trimdata=Modification.objects.filter(trim=data['trim'],model_id=modeldata._id).first()
     vehicleuser = VehicleUser.objects.create(

@@ -57,7 +57,7 @@ export default function DealScreen({ history }, props) {
         }}
       >
 
-        <Alert severity="success">Join us now and get 50 AED off your first purchase of 4 sets of tires!</Alert>
+        <Alert severity="success">Join us now and get 100 AED off your first purchase of 4 sets of tires!</Alert>
 
       </Box>
 

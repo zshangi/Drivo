@@ -58,16 +58,16 @@ export default function RecipeReviewCard({ post }) {
 
 
   <>
-          <Card onClick={() => handledetails()} >
+          <Card sx={{height:'100%'}} onClick={() => handledetails()} >
 
               <CardMedia
                 component="img"
                 height="194"
                 image={post.image}
-                alt="Paella dish"
+                alt={post.title}
               />
               <CardContent height="350">
-                <p>{post.title}</p>
+                <h2 style={{letterSpacing: 20}} >{post.title}</h2>
               
               <span className='textnormal'>{post.body.substring(0, 150)}...</span> 
             
@@ -93,13 +93,20 @@ export default function RecipeReviewCard({ post }) {
           }} >
 
                <Row className='p-2 border-bottom'>
-              <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
-                <span className='pbold'>{post.title}</span>
+
+
+              <Col className="my-4" xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
+                <h1 style={{
+                    letterSpacing:0,
+                    fontWeight:1300}}>{post.title}</h1>
               </Col>
+                   <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
+                       <img className="img-post" src={post.image}/>
+                   </Col>
             </Row>
             <Row  className='p-2 border-bottom'>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-            {post.body}
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} >
+            <span className='justifypost' >{post.body}</span>
             <hr/>
             </Col>
             </Row>

@@ -196,11 +196,10 @@ export default function HomeScreen({ history }, props) {
 
     <Container fluid  >
       {/*SEO PART////////////////////////////////////////////////////////////////////////// */}
-      <h1 hidden>Drivo Homepage</h1>
+      <h1 hidden>Drivo Tire | Battery | Oil</h1>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Drivo (Drive with confidence)</title>
-        <meta name="description" content="Drive with confidence" />
+        <title>Find Your Perfect Tires and Book Services at Nearby Centers with Drivo.ae</title>
       </Helmet>
 
 

@@ -1099,7 +1099,7 @@ module.exports = function(XRegExp) {
             bmp: '\u0A00-\u0A7F'
         },
         {
-            name: 'InHalfwidth_and_fullwidth="true"_Forms',
+            name: 'InHalfwidth_and_Fullwidth_Forms',
             bmp: '\uFF00-\uFFEF'
         },
         {

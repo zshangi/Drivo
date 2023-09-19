@@ -1,4 +1,5 @@
 import React, {createRef} from 'react';
+import { Link } from 'react-router-dom'
 
 export default function Otp({helper, otp, setOtp}) {
     
@@ -18,6 +19,7 @@ export default function Otp({helper, otp, setOtp}) {
             <p>{helper}</p>
             <input 
             type="tel"
+
             placeholder="•"
             ref={ref0}
             maxLength="1"

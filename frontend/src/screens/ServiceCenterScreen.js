@@ -255,6 +255,7 @@ function ServiceScreen({ match, history }) {
                         <TableBody>
                      
                               {row.servicecenterItems.map((item, index) => (
+                                item.isAvailable==1?
                                 <TableRow>
                                   <TableCell> <span className="textnormal">{item.datetable}</span></TableCell>
                                   <TableCell>
@@ -277,6 +278,7 @@ function ServiceScreen({ match, history }) {
 
 
                                 </TableRow>
+                                : null
                               ))}
                       
                         </TableBody>

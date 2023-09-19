@@ -85,6 +85,8 @@ h2 {
   text-transform: none !important;
   font-family: 'Comfortaa-bold', sans-serif !important;  
   font-size: 14px  !important;
+    letter-spacing: 1px !important;
+    font-weight: 900 !important;
 }
   h2:first-letter {text-transform: uppercase}
   h3 {
@@ -339,4 +341,37 @@ h5 {
     }
   }
 
- 
+.img-tire {
+    width: 20%;
+}
+
+@media only screen and (max-width: 800px) {
+  .img-tire {
+        width: 100%;
+    }
+}
+
+.img-post {
+    width: 20%;
+}
+
+@media only screen and (max-width: 800px) {
+  .img-post {
+        width: 100%;
+    }
+}
+.justifypost{
+    /*text-align: left !important;*/
+    /*text-align-last: start !important;*/
+  text-justify: auto !important;
+
+
+    /*text-align: justify !important;*/
+}
+
+.button-blue{
+    border-radius: 40;
+    color:'#fff';
+    background-color: '#61dafb';
+
+}

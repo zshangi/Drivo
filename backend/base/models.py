@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+
 
 
 class Tyre(models.Model):
@@ -9,6 +11,8 @@ class Tyre(models.Model):
     profile = models.CharField(max_length=200, null=True, blank=True)
     construction = models.CharField(max_length=200, null=True, blank=True)
     diameter= models.CharField(max_length=200, null=True, blank=True)
+    flag=models.IntegerField(null=True, blank=True, default=0)
+    url=models.CharField(max_length=200, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -83,6 +87,27 @@ class Brandorigin(models.Model):
     def __str__(self):
         return  str(self.brand)+ " (" + str(self.origin)+")"
 
+class BrandPattern(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+    brand = models.ForeignKey(Brand,on_delete=models.SET_NULL,null=True)
+    pattern = models.CharField(max_length=200, null=True)
+
+
+    def __str__(self):
+        return  str(self.brand)+ " (" + str(self.pattern)+")"        
+        
+        
+class LabelCode(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+    label = models.CharField(max_length=200, null=True)
+    hexCode =  models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return  str(self.label)
+        
+ 
+        
+
 class TyreProduct(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     name= models.CharField(max_length=200, null=True)
@@ -94,9 +119,14 @@ class TyreProduct(models.Model):
     countInStock = models.IntegerField(null=True, blank=True, default=0)
     load_index= models.CharField(max_length=200, null=True, blank=True)
     speed_index= models.CharField(max_length=200, null=True, blank=True)
-    pattern= models.CharField(max_length=200, null=True, blank=True)
-    RFT= models.CharField(max_length=200, null=True, blank=True)
-    
+    brandpattern=  models.ForeignKey(BrandPattern,on_delete=models.SET_NULL,null=True)
+    RFT= models.BooleanField(default=False)
+    productionYear=models.IntegerField(null=True, blank=True, default=0)
+    labelcode= models.ForeignKey(LabelCode, on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(null=True, blank=True)
+    description= models.CharField(max_length=2000, null=True, blank=True)
+    imageurl = models.CharField(max_length=2000, null=True, blank=True)
+
     def __str__(self):
                 return  str(self.name)+ " (" + str(self.tyre.name)+")"
 
@@ -111,12 +141,12 @@ class VehicleUser(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self._id
+        return self.user.username
 
     
 class ServiceCenter(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name="user")
     name = models.CharField(max_length=200, null=True)
     address=models.CharField(max_length=200, null=True)
     tel=models.CharField(max_length=200, null=True)
@@ -128,7 +158,7 @@ class ServiceCenter(models.Model):
     numReviews = models.IntegerField(null=True, blank=True, default=0)
     tyreServiceCenter=models.CharField(max_length=2, choices=(('1','Local'), ('2','Van'),('3','Ship')), default = 1)
     def __str__(self):
-        return self.name    
+        return str(f"{self.name}")  
 
 class Timetable(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -137,11 +167,11 @@ class Timetable(models.Model):
     part_AM = models.BooleanField(default=False)
     part_PM = models.BooleanField(default=False)
     isAvailable= models.CharField(max_length=2, choices=(('1','Available'), ('2','notAvailable')), default = 1)
- 
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.isAvailable
+        return  str(self.servicecenter)+ " (" + str(self.datetable)+")"        
+
     
 class Product(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
@@ -182,24 +212,20 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    
-             
-        
-
-
-
-
 class Order(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    service = models.CharField(max_length=20, choices=(('1','local service center'), ('2','van service'), ('3','ship an address')), default = 1)
     servicecenter = models.ForeignKey(ServiceCenter, on_delete=models.SET_NULL, null=True)
-    dateservice = models.CharField(max_length=200, null=True, blank=True)
+    timetable =  models.ForeignKey(Timetable, on_delete=models.SET_NULL, null=True)
     timeservice = models.CharField(max_length=200, null=True, blank=True)
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     taxPrice = models.DecimalField(
         max_digits=7, decimal_places=2, null=True, blank=True)
     shippingPrice = models.DecimalField(
         max_digits=7, decimal_places=2, null=True, blank=True)
+    discount = models.DecimalField(
+        max_digits=9, decimal_places=2, null=True, blank=True)
     totalPrice = models.DecimalField(
         max_digits=9, decimal_places=2, null=True, blank=True)
     isPaid = models.BooleanField(default=False)
@@ -209,22 +235,25 @@ class Order(models.Model):
         auto_now_add=False, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    def orderitem_set(self, obj):
+        # Custom method to get a comma-separated list of order item names
+        return ", ".join(item.name for item in obj.orderItems.all())
+  
     def __str__(self):
         return str(self.createdAt)
 
 
 class OrderItem(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    tyreproduct = models.ForeignKey(TyreProduct, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=200, null=True, blank=True)
     qty = models.IntegerField(null=True, blank=True, default=0)
     price = models.DecimalField(
         max_digits=9, decimal_places=2, null=True, blank=True)
     image = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.tyreproduct.name)
 
 
 class ShippingAddress(models.Model):
@@ -267,6 +296,8 @@ class AddressItem(models.Model):
     lat = models.CharField(max_length=200, null=True, blank=True)
     long = models.CharField(max_length=200, null=True, blank=True)
     details = models.CharField(max_length=200, null=True, blank=True)
+    flag=models.IntegerField(null=True, blank=True, default=1)
+
     def __str__(self):
         return str(self.title)  
      
@@ -282,6 +313,46 @@ class Post(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name    
+        return self.name  
+        
+class PayStripe(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    customer_id = models.CharField(max_length=200, null=True)
+    payment_intent_id = models.CharField(max_length=200, null=True, blank=True)
+    amount = models.CharField(max_length=200, null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.customer_id)
+
+upper  = "ABCDEFGHJKLMNPQRSTVWXYZ"
+digits = random.randint(1000,9999)
+def id_generator(size=6, chars=upper + str(digits)+upper):
+        return ''.join(random.choice(chars) for _ in range(size))
+
+class Voucher(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+    title = models.CharField(max_length=200, null=True)
+    voucher = models.CharField(max_length=6, null=True, blank=True, unique=True)
+    typeVoucher = models.CharField(max_length=20, choices=(('1','percent'), ('2','AED')), default = 1)
+    amount =  models.IntegerField(null=True, blank=True, default=0)
+    desc = models.CharField(max_length=200, null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.title)
 
 
+
+
+    def save(self):
+        if not self.voucher:
+            # Generate ID once, then check the db. If exists, keep trying.
+            self.voucher = id_generator()
+            while Voucher.objects.filter(voucher=self.voucher).exists():
+                self.voucher = id_generator()
+        super(Voucher, self).save()    
+
+        

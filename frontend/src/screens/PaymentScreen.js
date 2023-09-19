@@ -20,7 +20,6 @@ import { Helmet } from 'react-helmet';
 
 function PaymentScreen({ history,match }) {
   const stripePromise = loadStripe('pk_live_51N3E1bFw6Mk3kjuwRQTOKcmqhFZiCuNEPDkhgD1Lrs5kRzYeT1IZdJrOLeHKiLyB8rDsO1wfqJ63RKEVXuamjGaT003j68Mi0I');
-  // const stripePromise = loadStripe('pk_test_51N1RJWGcJKS2UZRpxbqbIdpkQGpH4mX0WrQy1uhTWPjjTjeip5B8ALHbS6oTUFjAilkHxmL2HmpI0QeQ8aIoTLNG00Snv7pjaf');
   const orderId = match.params.id
   const dispatch = useDispatch()
   const orderDetails = useSelector(state => state.orderDetails)
@@ -37,34 +36,9 @@ function PaymentScreen({ history,match }) {
         borderRadius: '20px 20px 0 0',
       },
     });
-  const tamaraHandler = (e) => {
-    e.preventDefault()
 
 
-      const data = {
-        "country": "AE",
-        "order_value": {
-          "amount": "100.00",
-          "currency": "UAE"
-        },
-        "phone_number": "560123123",
-        "is_vip": true
-      }
-      const method="POST"
-      return axios({
-        url: `https://api-sandbox.tamara.co`,
-        
-        method,
-        data,
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhY2NvdW50SWQiOiJhMGMwYjAwMy03NWY2LTQ3ZjEtOTQ5ZC1mYTkwNzkwMTliMjAiLCJ0eXBlIjoibWVyY2hhbnQiLCJzYWx0IjoiOWM3NWQ0ZGY0MGRkZTc2N2E3ODhlZDRlNTY5NzdlN2MiLCJyb2xlcyI6WyJST0xFX01FUkNIQU5UIl0sImlhdCI6MTY5MzQ2MjE2NiwiaXNzIjoiVGFtYXJhIn0.OpSRcgDVK4M4mgL7Mg4F_PPTm0m6TZPm7-BHvyO9U4v_NT2gLkD7PfFNwcGygOPYaaoB18p1HIfxJEjyi7099AxYtGOucmbwKoXAvtjpaMtgAKZVZN4GrkoX3mfVRzjtzCmjNQULWi5yoQs6wmz_REKM_P7AycPUwsve-WRwVaVnUSgWrNI-xsDkWj1bj3KQky11TMryi3z6ZEiXefkaXaucPFhgwlRqUtYqkNNYRet8PTdWC0S1In1gZg8bdkJZa7uhirOkwARga_Zp1n1OcZQyfEbEPlzIe4X-oTnzW7yH4EDtozl6d3lgZW8_iiTcbdDDESCLe2VJO-MwwRIFYw`
-      }
-      })
-      .then(response => {
-        console.log(response.data[0].supportedInstalments);
-         })
-       }
+
 
   
   const userLogin = useSelector(state => state.userLogin)
@@ -78,7 +52,7 @@ function PaymentScreen({ history,match }) {
 
 
     return (
-      <Container fluid>
+    <Container fluid>
 
     {/*SEO PART////////////////////////////////////////////////////////////////////////// */}
     <Helmet>
@@ -220,19 +194,7 @@ function PaymentScreen({ history,match }) {
   <Message variant='info' text='Your order is empty !' />
   :
   <>
-<Button sx={{width:'60px'}} ><img
-        src={'assets/img/tamara.jpg'} 
-        alt=""
-        id="secret_folder"
-        width="100%"
-        onClick={tamaraHandler}
-      /></Button>
-    
-      
-      <p>pay in 3 split with tamara</p>
 
-
-<hr/>
       <Card> 
 
                   <Elements stripe={stripePromise}>

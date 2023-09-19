@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{ useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Header from './components/Header'
@@ -7,7 +7,6 @@ import users from './components/users'
 import HomeScreen from './screens/HomeScreen';
 import GarageScreen from './screens/GarageScreen';
 import LocationScreen from './screens/LocationScreen';
-
 import { HashRouter, Route } from 'react-router-dom';
 import ProductScreen from './screens/ProductScreen';
 import ProductsScreen from './screens/ProductsScreen';
@@ -36,8 +35,14 @@ import VehicleTyreScreen from './screens/VehicleTyreScreen'
 import success from './components/success'
 import DashboardScreen from './suppliers/Dashboard'
 import OrderServiceScreen from './suppliers/Orders'
-
+import AboutusScreen from './screens/AboutusScreen'
+import FaqScreen from './screens/FaqScreen'
+import RefundReturnScreen from './screens/RefundReturnScreen'
 import { Helmet } from 'react-helmet';
+import WarantyScreen from './screens/WarantyScreen'
+import TamaraSuccessScreen from './screens/TamaraSuccessScreen'
+import TamaraFailScreen from './screens/TamaraFailScreen'
+import TamaraCancelScreen from './screens/TamaraCancelScreen'
 
 function App() {
 
@@ -67,7 +72,16 @@ function App() {
            <PrivateRoute path='/users' component={users} />
            <PrivateRoute path='/my' component={ListOrdersScreen} />
            <PrivateRoute path='/deal' component={DealScreen} />
-           <PrivateRoute path='/terms' component={TermsScreen} />
+           <Route path='/terms' component={TermsScreen} />
+           <Route path='/faq' component={FaqScreen} />
+           <Route path='/about' component={AboutusScreen} />
+           <Route path='/returnrefund' component={RefundReturnScreen} />
+           <Route path='/waranty' component={WarantyScreen} />
+           <Route path='/tamarasuccess' component={TamaraSuccessScreen} />
+           <Route path='/tamarafail' component={TamaraFailScreen} />
+           <Route path='/tamaracancel' component={TamaraCancelScreen} />
+
+
            <Route path='/help' component={HelpScreen} />
    
            <Route path='/shipping' component={ShippingScreen} />
